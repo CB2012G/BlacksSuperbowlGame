@@ -106,14 +106,13 @@
         }
         .pot-card span { font-size: 32px; font-weight: 900; color: var(--cb-red); }
         
-        /* Unified Header Sizes */
         .col-banner { 
             width: calc(100% - 60px); 
             margin-left: 60px; 
             background: var(--cb-red); 
             color: white; 
             font-weight: 900; 
-            font-size: 20px; /* Matched Size */
+            font-size: 20px; 
             padding: 15px 0; 
             text-align: center; 
             border-radius: 8px 8px 0 0; 
@@ -128,12 +127,12 @@
             transform: rotate(180deg); 
             background: var(--cb-black); 
             color: white; 
-            width: 60px; /* Increased slightly for font size */
+            width: 60px; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
             font-weight: 900; 
-            font-size: 20px; /* Matched Size */
+            font-size: 20px; 
             border-radius: 8px 0 0 8px; 
             text-transform: uppercase;
         }
@@ -194,6 +193,31 @@
             flex-direction: column; align-items: center; justify-content: center; 
             z-index: 9999; color: var(--cb-red); font-weight: 800; font-size: 24px; 
         }
+
+        /* NEW FOOTER STYLE */
+        .thank-you-footer {
+            margin-top: 50px;
+            padding: 30px;
+            border-radius: 8px;
+            background: var(--cb-gray);
+            border-left: 8px solid var(--cb-red);
+            border-right: 8px solid var(--cb-red);
+            text-align: center;
+        }
+        .thank-you-footer h3 {
+            color: var(--cb-black);
+            margin: 0 0 10px 0;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .thank-you-footer p {
+            color: #444;
+            font-size: 15px;
+            font-weight: 600;
+            margin: 0;
+            line-height: 1.4;
+        }
     </style>
 </head>
 <body>
@@ -221,11 +245,17 @@
             </div>
             <div class="info-card">
                 <h4>🏟️ HOW IT WORKS</h4>
-                <p>Numbers 0-9 will be randomly assigned to the axes once the board is full. Your square represents the final digit of each team's score.</p>
+                <p>1. The numbers 0-9 will be randomly assigned to the board at game time.<BR>2. If the winning square is unselected, a person will be randomly generated from the participant list.</p>
             </div>
             <div class="info-card">
-                <h4>🏆 THE PRIZES</h4>
-                <p>50% to Cheetahs Development.<br>50% to Payouts.<br><b>Winners every Quarter!</b></p>
+                <h4>🏟️HOW TO WIN</h4>
+                <p> Winning square will be selected by the last digit of each teams score.<BR><b>Row Number:</b> The Last Digit of the Seattle Seahawks score.<BR> <b>Column Number:</b> The Last Digit of the New England Patriots score. 
+                <BR> <B>EXAMPLE:</B> If the score is Seattle Seahawks 14 and New England Patriots 17, the winner is where Row 4 and Column 7 intersect on the gird.
+                </p>
+            </div>
+            <div class="info-card">
+                <h4>🏆 THE PRIZE</h4>
+                <p>50% to Cheetahs Development & <br><b>WINNER receives the other 50%!</b></p>
             </div>
         </div>
 
@@ -238,8 +268,8 @@
         </div>
 
         <div class="pot-tracker">
-            <div class="pot-card"><small>TOTAL PRIZE POOL</small><br><span id="total-pot">$0.00</span></div>
-            <div class="pot-card"><small>EACH QUARTER</small><br><span id="quarter-payout">$0.00</span></div>
+            <div class="pot-card"><small>TOTAL COLLECTED</small><br><span id="total-pot">$0.00</span></div>
+            <div class="pot-card"><small>WINNER'S POT (50%)</small><br><span id="quarter-payout">$0.00</span></div>
         </div>
 
         <div class="game-wrapper">
@@ -249,10 +279,15 @@
                 <div id="game-board" class="grid"></div>
             </div>
         </div>
+
+        <div class="thank-you-footer">
+            <h3>Thank you for supporting the Cheetahs!</h3>
+            <p>Proceeds directly support team development, tournament, and season costs.</p>
+        </div>
     </div>
 
     <div id="checkout-bar">
-        <input type="text" id="userName" class="input-field" placeholder="Your Full Name">
+        <input type="text" id="userName" class="input-field" placeholder="Player Name">
         <input type="email" id="userEmail" class="input-field" placeholder="Email Address">
         <div style="margin-top:10px; font-weight: 700;">Selected: <span id="count" style="color:var(--accent-gold)">0</span> | Total: <span id="checkout-total" style="color:var(--accent-gold)">$0.00</span></div>
         <button onclick="submitBooking()" class="btn-confirm">Reserve Squares</button>
@@ -260,7 +295,7 @@
 
     <script>
         const CONFIG = {
-            SCRIPT_URL: "https://script.google.com/macros/s/AKfycbycj2AkHdWZZUWlRPOAVH2xvOXr6E3HVc7cP5vx3XLAgX3dQfAJoFGq7rxf46M8njfhOg/exec",
+            SCRIPT_URL: "https://script.google.com/macros/s/AKfycbzqIeHzXI66l7nRy0wH6QH2mwqT70no0BuxBbqHVf5IciUzrhAmn4pIaaT3-Um8-E2eAA/exec",
             TEAM_NAME: "Cherry Beach Cheetahs",
             PAYMENT_EMAIL: "cherrybeachcheetahs@gmail.com",
             SQUARE_PRICE: 20.00,
@@ -307,7 +342,6 @@
                     } else if (r === 0 || c === 0) {
                         sq.className = 'sq axis-sq';
                         const axisId = r === 0 ? `COL_${c}` : `ROW_${r}`;
-                        // Check if data exists for this axis and grab the .initials property (the number)
                         if (boardData[axisId] && boardData[axisId].initials !== undefined) {
                             sq.innerText = boardData[axisId].initials;
                         } else {
@@ -352,9 +386,11 @@
 
         function updateStats() {
             const soldCount = Object.keys(boardData).filter(k => k.startsWith('R') && k.includes('C')).length;
-            const totalPrizePool = (soldCount * CONFIG.SQUARE_PRICE) * 0.5;
-            document.getElementById('total-pot').innerText = `$${totalPrizePool.toFixed(2)}`;
-            document.getElementById('quarter-payout').innerText = `$${(totalPrizePool / 4).toFixed(2)}`;
+            const totalCollected = (soldCount * CONFIG.SQUARE_PRICE);
+            const winnersHalf = totalCollected * 0.5;
+
+            document.getElementById('total-pot').innerText = `$${totalCollected.toFixed(2)}`;
+            document.getElementById('quarter-payout').innerText = `$${winnersHalf.toFixed(2)}`;
         }
 
         async function submitBooking() {
@@ -363,28 +399,45 @@
             if (!name || !email || selectedSquares.length === 0) return alert("Please fill in Name, Email and select at least one square.");
 
             const overlay = document.getElementById('loading-overlay');
-            overlay.innerText = "RESERVING...";
+            overlay.innerText = "CHECKING AVAILABILITY...";
             overlay.style.display = 'flex';
 
-            const payload = {
-            action: 'reserve',
-            name: name,
-            email: email,
-            squares: selectedSquares
-        };
-
             try {
+                const response = await fetch(`${CONFIG.SCRIPT_URL}?action=getBoard`);
+                const latestBoard = await response.json();
+
+                let conflict = [];
+                selectedSquares.forEach(sqId => {
+                    if (latestBoard[sqId]) conflict.push(sqId);
+                });
+
+                if (conflict.length > 0) {
+                    overlay.style.display = 'none';
+                    alert(`Sorry! Squares ${conflict.join(', ')} were just taken. Refreshing now.`);
+                    location.reload();
+                    return;
+                }
+
+                overlay.innerText = "RESERVING...";
+                const payload = {
+                    action: 'reserve',
+                    name: name,
+                    email: email,
+                    squares: selectedSquares
+                };
+
                 await fetch(CONFIG.SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors', 
-                body: JSON.stringify(payload)
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify(payload)
                 });
 
                 alert("Reservation sent! Please send your e-transfer now to confirm.");
                 selectedSquares = [];
                 setTimeout(() => { location.reload(); }, 1500); 
+
             } catch (e) {
-                alert("Error saving reservation.");
+                alert("Error connecting. Please try again.");
                 overlay.style.display = 'none';
             }
         }
