@@ -245,7 +245,7 @@
             </div>
             <div class="info-card">
                 <h4>🏟️ HOW IT WORKS</h4>
-                <p>1. The numbers 0-9 will be randomly assigned to the board at game time.<BR>2. If the winning square is unselected, a person will be randomly generated from the participant list.</p>
+                <p>1. The numbers 0-9 will be randomly assigned to the board at game time.<BR>2. The numbers 0-9 will be only generate once.<BR>3. If the winning square is unselected, a person will be randomly generated from the participant list.</p>
             </div>
             <div class="info-card">
                 <h4>🏟️HOW TO WIN</h4>
@@ -253,11 +253,13 @@
                 <BR> <B>EXAMPLE:</B> If the score is Seattle Seahawks 14 and New England Patriots 17, the winner is where Row 4 and Column 7 intersect on the gird.
                 </p>
             </div>
+
             <div class="info-card">
                 <h4>🏆 THE PRIZE</h4>
-                <p>50% to Cheetahs Development & <br><b>WINNER receives the other 50%!</b></p>
+                <p>50% to Cheetahs Development<br>
+                <b>25% Half-Time Winner</b><br>
+                <b>25% Final Score Winner</b></p>
             </div>
-        </div>
 
         <div class="how-to-win-navy">
             <h4>🏅 WINNING COMBINATIONS</h4>
@@ -267,9 +269,10 @@
             </ul>
         </div>
 
-        <div class="pot-tracker">
+        <div class="pot-tracker" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
             <div class="pot-card"><small>TOTAL COLLECTED</small><br><span id="total-pot">$0.00</span></div>
-            <div class="pot-card"><small>WINNER'S POT (50%)</small><br><span id="quarter-payout">$0.00</span></div>
+            <div class="pot-card"><small>HALF-TIME (25%)</small><br><span id="half-payout">$0.00</span></div>
+            <div class="pot-card"><small>FINAL (25%)</small><br><span id="final-payout">$0.00</span></div>
         </div>
 
         <div class="game-wrapper">
@@ -385,14 +388,17 @@
         }
 
         function updateStats() {
+            // Count only actual player squares (IDs starting with R and containing C)
             const soldCount = Object.keys(boardData).filter(k => k.startsWith('R') && k.includes('C')).length;
             const totalCollected = (soldCount * CONFIG.SQUARE_PRICE);
-            const winnersHalf = totalCollected * 0.5;
-
+            
+            // Calculate the 25% splits
+            const quarterSplit = totalCollected * 0.25;
+        
             document.getElementById('total-pot').innerText = `$${totalCollected.toFixed(2)}`;
-            document.getElementById('quarter-payout').innerText = `$${winnersHalf.toFixed(2)}`;
+            document.getElementById('half-payout').innerText = `$${quarterSplit.toFixed(2)}`;
+            document.getElementById('final-payout').innerText = `$${quarterSplit.toFixed(2)}`;
         }
-
         async function submitBooking() {
             const name = document.getElementById('userName').value.trim();
             const email = document.getElementById('userEmail').value.trim();
