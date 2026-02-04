@@ -106,9 +106,23 @@
         }
         .pot-card span { font-size: 32px; font-weight: 900; color: var(--cb-red); }
         
+        /* FIXED: Game wrapper now scrolls horizontally on mobile */
+        .game-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 0 -35px;
+            padding: 0 35px;
+        }
+        
+        /* FIXED: Grid container to keep banner and board together */
+        .grid-container {
+            display: inline-block;
+            min-width: 650px;
+        }
+        
+        /* FIXED: Column banner now spans full width */
         .col-banner { 
-            width: calc(100% - 60px); 
-            margin-left: 60px; 
+            width: 100%;
             background: var(--cb-red); 
             color: white; 
             font-weight: 900; 
@@ -143,7 +157,8 @@
             gap: 2px; 
             background: #ddd; 
             padding: 4px; 
-            box-sizing: border-box; 
+            box-sizing: border-box;
+            min-width: 590px;
         }
         .sq { 
             aspect-ratio: 1; 
@@ -156,6 +171,8 @@
             cursor: pointer; 
             color: var(--cb-black);
             transition: 0.2s;
+            min-width: 45px;
+            min-height: 45px;
         }
         .axis-sq { background: var(--cb-gray); color: var(--cb-red); font-weight: 900; cursor: default; }
         .taken { background: #e0e0e0; color: #aaa; cursor: not-allowed; }
@@ -282,10 +299,12 @@
         </div>
 
         <div class="game-wrapper">
-            <div class="col-banner col-team-name">New England Patriots</div>
-            <div class="main-row">
-                <div class="row-banner row-team-name">Seattle Seahawks</div>
-                <div id="game-board" class="grid"></div>
+            <div class="grid-container">
+                <div class="col-banner col-team-name">New England Patriots</div>
+                <div class="main-row">
+                    <div class="row-banner row-team-name">Seattle Seahawks</div>
+                    <div id="game-board" class="grid"></div>
+                </div>
             </div>
         </div>
 
